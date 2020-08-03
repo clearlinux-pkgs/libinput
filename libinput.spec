@@ -5,12 +5,12 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.15.4
-Release  : 59
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.15.4.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.15.4.tar.xz
-Source1  : https://www.freedesktop.org/software/libinput/libinput-1.15.4.tar.xz.sig
-Summary  : Input device management and event handling library
+Version  : 1.16.0
+Release  : 60
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.16.0.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.16.0.tar.xz
+Source1  : https://www.freedesktop.org/software/libinput/libinput-1.16.0.tar.xz.sig
+Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
 Requires: libinput-bin = %{version}-%{release}
@@ -93,7 +93,6 @@ Requires: libinput-bin = %{version}-%{release}
 Requires: libinput-data = %{version}-%{release}
 Provides: libinput-devel = %{version}-%{release}
 Requires: libinput = %{version}-%{release}
-Requires: libinput = %{version}-%{release}
 
 %description dev
 dev components for the libinput package.
@@ -159,10 +158,10 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.15.4
-cd %{_builddir}/libinput-1.15.4
+%setup -q -n libinput-1.16.0
+cd %{_builddir}/libinput-1.16.0
 pushd ..
-cp -a libinput-1.15.4 build32
+cp -a libinput-1.16.0 build32
 popd
 
 %build
@@ -170,15 +169,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1584543193
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1596471336
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false -Ddebug-gui=false  builddir
 ninja -v -C builddir
@@ -203,8 +201,8 @@ meson test -C builddir || : || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/libinput
-cp %{_builddir}/libinput-1.15.4/COPYING %{buildroot}/usr/share/package-licenses/libinput/c015511464588baeb0a5c640848a3f31d1a837b5
-cp %{_builddir}/libinput-1.15.4/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
+cp %{_builddir}/libinput-1.16.0/COPYING %{buildroot}/usr/share/package-licenses/libinput/c015511464588baeb0a5c640848a3f31d1a837b5
+cp %{_builddir}/libinput-1.16.0/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
 pushd ../build32/
 DESTDIR=%{buildroot} ninja -C builddir install
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -248,6 +246,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/libinput/30-vendor-microsoft.quirks
 /usr/share/libinput/30-vendor-razer.quirks
 /usr/share/libinput/30-vendor-synaptics.quirks
+/usr/share/libinput/30-vendor-trust.quirks
 /usr/share/libinput/30-vendor-vmware.quirks
 /usr/share/libinput/30-vendor-wacom.quirks
 /usr/share/libinput/50-system-acer.quirks
@@ -259,6 +258,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/libinput/50-system-google.quirks
 /usr/share/libinput/50-system-hp.quirks
 /usr/share/libinput/50-system-lenovo.quirks
+/usr/share/libinput/50-system-sony.quirks
 /usr/share/libinput/50-system-system76.quirks
 /usr/share/libinput/50-system-toshiba.quirks
 /usr/share/zsh/site-functions/_libinput
@@ -287,6 +287,8 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files libexec
 %defattr(-,root,root,-)
+/usr/libexec/libinput/libinput-analyze
+/usr/libexec/libinput/libinput-analyze-per-slot-delta
 /usr/libexec/libinput/libinput-debug-events
 /usr/libexec/libinput/libinput-debug-tablet
 /usr/libexec/libinput/libinput-list-devices
@@ -294,6 +296,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/libexec/libinput/libinput-measure-fuzz
 /usr/libexec/libinput/libinput-measure-touch-size
 /usr/libexec/libinput/libinput-measure-touchpad-pressure
+/usr/libexec/libinput/libinput-measure-touchpad-size
 /usr/libexec/libinput/libinput-measure-touchpad-tap
 /usr/libexec/libinput/libinput-quirks
 /usr/libexec/libinput/libinput-record
@@ -306,12 +309,15 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files man
 %defattr(0644,root,root,0755)
+/usr/share/man/man1/libinput-analyze-per-slot-delta.1
+/usr/share/man/man1/libinput-analyze.1
 /usr/share/man/man1/libinput-debug-events.1
 /usr/share/man/man1/libinput-debug-tablet.1
 /usr/share/man/man1/libinput-list-devices.1
 /usr/share/man/man1/libinput-measure-fuzz.1
 /usr/share/man/man1/libinput-measure-touch-size.1
 /usr/share/man/man1/libinput-measure-touchpad-pressure.1
+/usr/share/man/man1/libinput-measure-touchpad-size.1
 /usr/share/man/man1/libinput-measure-touchpad-tap.1
 /usr/share/man/man1/libinput-measure.1
 /usr/share/man/man1/libinput-quirks-list.1
