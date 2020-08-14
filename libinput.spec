@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.16.0
-Release  : 60
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.16.0.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.16.0.tar.xz
-Source1  : https://www.freedesktop.org/software/libinput/libinput-1.16.0.tar.xz.sig
+Version  : 1.16.1
+Release  : 61
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.16.1.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.16.1.tar.xz
+Source1  : https://www.freedesktop.org/software/libinput/libinput-1.16.1.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
@@ -158,10 +158,10 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.16.0
-cd %{_builddir}/libinput-1.16.0
+%setup -q -n libinput-1.16.1
+cd %{_builddir}/libinput-1.16.1
 pushd ..
-cp -a libinput-1.16.0 build32
+cp -a libinput-1.16.1 build32
 popd
 
 %build
@@ -169,7 +169,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1596471336
+export SOURCE_DATE_EPOCH=1597420902
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -201,8 +201,8 @@ meson test -C builddir || : || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/libinput
-cp %{_builddir}/libinput-1.16.0/COPYING %{buildroot}/usr/share/package-licenses/libinput/c015511464588baeb0a5c640848a3f31d1a837b5
-cp %{_builddir}/libinput-1.16.0/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
+cp %{_builddir}/libinput-1.16.1/COPYING %{buildroot}/usr/share/package-licenses/libinput/c015511464588baeb0a5c640848a3f31d1a837b5
+cp %{_builddir}/libinput-1.16.1/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
 pushd ../build32/
 DESTDIR=%{buildroot} ninja -C builddir install
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
