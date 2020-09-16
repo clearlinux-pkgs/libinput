@@ -6,7 +6,7 @@
 #
 Name     : libinput
 Version  : 1.16.1
-Release  : 61
+Release  : 62
 URL      : https://www.freedesktop.org/software/libinput/libinput-1.16.1.tar.xz
 Source0  : https://www.freedesktop.org/software/libinput/libinput-1.16.1.tar.xz
 Source1  : https://www.freedesktop.org/software/libinput/libinput-1.16.1.tar.xz.sig
@@ -21,26 +21,9 @@ Requires: libinput-libexec = %{version}-%{release}
 Requires: libinput-license = %{version}-%{release}
 Requires: libinput-man = %{version}-%{release}
 BuildRequires : buildreq-meson
-BuildRequires : cairo-dev32
 BuildRequires : doxygen
-BuildRequires : gcc-dev32
-BuildRequires : gcc-libgcc32
-BuildRequires : gcc-libstdc++32
-BuildRequires : gdk-pixbuf-dev32
-BuildRequires : glib-dev32
-BuildRequires : glibc-dev32
-BuildRequires : glibc-libc32
 BuildRequires : graphviz
 BuildRequires : graphviz-extras
-BuildRequires : pango-dev32
-BuildRequires : pkgconfig(32atk)
-BuildRequires : pkgconfig(32check)
-BuildRequires : pkgconfig(32fribidi)
-BuildRequires : pkgconfig(32glib-2.0)
-BuildRequires : pkgconfig(32gtk+-3.0)
-BuildRequires : pkgconfig(32libevdev)
-BuildRequires : pkgconfig(32libudev)
-BuildRequires : pkgconfig(32mtdev)
 BuildRequires : pkgconfig(check)
 BuildRequires : pkgconfig(fribidi)
 BuildRequires : pkgconfig(gtk+-3.0)
@@ -98,18 +81,6 @@ Requires: libinput = %{version}-%{release}
 dev components for the libinput package.
 
 
-%package dev32
-Summary: dev32 components for the libinput package.
-Group: Default
-Requires: libinput-lib32 = %{version}-%{release}
-Requires: libinput-bin = %{version}-%{release}
-Requires: libinput-data = %{version}-%{release}
-Requires: libinput-dev = %{version}-%{release}
-
-%description dev32
-dev32 components for the libinput package.
-
-
 %package lib
 Summary: lib components for the libinput package.
 Group: Libraries
@@ -119,16 +90,6 @@ Requires: libinput-license = %{version}-%{release}
 
 %description lib
 lib components for the libinput package.
-
-
-%package lib32
-Summary: lib32 components for the libinput package.
-Group: Default
-Requires: libinput-data = %{version}-%{release}
-Requires: libinput-license = %{version}-%{release}
-
-%description lib32
-lib32 components for the libinput package.
 
 
 %package libexec
@@ -160,16 +121,13 @@ man components for the libinput package.
 %prep
 %setup -q -n libinput-1.16.1
 cd %{_builddir}/libinput-1.16.1
-pushd ..
-cp -a libinput-1.16.1 build32
-popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1597420902
+export SOURCE_DATE_EPOCH=1600276145
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -180,15 +138,6 @@ export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false -Ddebug-gui=false  builddir
 ninja -v -C builddir
-pushd ../build32/
-export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
-export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
-export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
-export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
-meson --libdir=lib32 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false -Ddebug-gui=false  builddir
-ninja -v -C builddir
-popd
 
 %check
 export LANG=C.UTF-8
@@ -196,22 +145,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 meson test -C builddir || :
-cd ../build32;
-meson test -C builddir || : || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/libinput
 cp %{_builddir}/libinput-1.16.1/COPYING %{buildroot}/usr/share/package-licenses/libinput/c015511464588baeb0a5c640848a3f31d1a837b5
 cp %{_builddir}/libinput-1.16.1/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
-pushd ../build32/
-DESTDIR=%{buildroot} ninja -C builddir install
-if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
-then
-pushd %{buildroot}/usr/lib32/pkgconfig
-for i in *.pc ; do ln -s $i 32$i ; done
-popd
-fi
-popd
 DESTDIR=%{buildroot} ninja -C builddir install
 
 %files
@@ -269,21 +207,10 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/libinput.so
 /usr/lib64/pkgconfig/libinput.pc
 
-%files dev32
-%defattr(-,root,root,-)
-/usr/lib32/libinput.so
-/usr/lib32/pkgconfig/32libinput.pc
-/usr/lib32/pkgconfig/libinput.pc
-
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libinput.so.10
 /usr/lib64/libinput.so.10.13.0
-
-%files lib32
-%defattr(-,root,root,-)
-/usr/lib32/libinput.so.10
-/usr/lib32/libinput.so.10.13.0
 
 %files libexec
 %defattr(-,root,root,-)

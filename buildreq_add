@@ -3,9 +3,5 @@
 valgrind
 doxygen
 graphviz
-gdk-pixbuf-dev32
-glib-dev32
-pango-dev32
-cairo-dev32
 python3-dev
 graphviz-extras

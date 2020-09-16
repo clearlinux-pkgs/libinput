@@ -1,16 +1,8 @@
 # This file contains additional pkgconfig build requirements that did
 # not get picked up automatically. One name per line, no whitespace.
-32atk
-32glib-2.0
-32fribidi
 fribidi
-32libudev
 libudev
-32mtdev
 mtdev
-32libevdev
 libevdev
 gtk+-3.0
-32gtk+-3.0
-32check
 check
