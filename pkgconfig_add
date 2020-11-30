@@ -1,8 +1,8 @@
 # This file contains additional pkgconfig build requirements that did
 # not get picked up automatically. One name per line, no whitespace.
+check
 fribidi
+gtk+-3.0
+libevdev
 libudev
 mtdev
-libevdev
-gtk+-3.0
-check

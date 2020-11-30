@@ -1,1 +1,3 @@
--Dlibwacom=false -Ddocumentation=false -Ddebug-gui=false
+-Dlibwacom=false
+-Ddocumentation=false
+-Ddebug-gui=false
