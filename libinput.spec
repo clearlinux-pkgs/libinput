@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.16.4
-Release  : 67
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.16.4.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.16.4.tar.xz
-Source1  : https://www.freedesktop.org/software/libinput/libinput-1.16.4.tar.xz.sig
+Version  : 1.17.0
+Release  : 68
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.17.0.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.17.0.tar.xz
+Source1  : https://www.freedesktop.org/software/libinput/libinput-1.17.0.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
@@ -119,15 +119,15 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.16.4
-cd %{_builddir}/libinput-1.16.4
+%setup -q -n libinput-1.17.0
+cd %{_builddir}/libinput-1.17.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1606719609
+export SOURCE_DATE_EPOCH=1614188152
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -150,8 +150,8 @@ meson test -C builddir || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/libinput
-cp %{_builddir}/libinput-1.16.4/COPYING %{buildroot}/usr/share/package-licenses/libinput/c015511464588baeb0a5c640848a3f31d1a837b5
-cp %{_builddir}/libinput-1.16.4/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
+cp %{_builddir}/libinput-1.17.0/COPYING %{buildroot}/usr/share/package-licenses/libinput/c015511464588baeb0a5c640848a3f31d1a837b5
+cp %{_builddir}/libinput-1.17.0/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
 DESTDIR=%{buildroot} ninja -C builddir install
 
 %files
@@ -218,6 +218,8 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %defattr(-,root,root,-)
 /usr/libexec/libinput/libinput-analyze
 /usr/libexec/libinput/libinput-analyze-per-slot-delta
+/usr/libexec/libinput/libinput-analyze-recording
+/usr/libexec/libinput/libinput-analyze-touch-down-state
 /usr/libexec/libinput/libinput-debug-events
 /usr/libexec/libinput/libinput-debug-tablet
 /usr/libexec/libinput/libinput-list-devices
@@ -239,6 +241,8 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files man
 %defattr(0644,root,root,0755)
 /usr/share/man/man1/libinput-analyze-per-slot-delta.1
+/usr/share/man/man1/libinput-analyze-recording.1
+/usr/share/man/man1/libinput-analyze-touch-down-state.1
 /usr/share/man/man1/libinput-analyze.1
 /usr/share/man/man1/libinput-debug-events.1
 /usr/share/man/man1/libinput-debug-tablet.1
