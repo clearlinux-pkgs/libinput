@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.19.0
-Release  : 74
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.19.0.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.19.0.tar.xz
-Source1  : https://www.freedesktop.org/software/libinput/libinput-1.19.0.tar.xz.sig
+Version  : 1.19.1
+Release  : 75
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.19.1.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.19.1.tar.xz
+Source1  : https://www.freedesktop.org/software/libinput/libinput-1.19.1.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
@@ -119,15 +119,15 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.19.0
-cd %{_builddir}/libinput-1.19.0
+%setup -q -n libinput-1.19.1
+cd %{_builddir}/libinput-1.19.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1631643038
+export SOURCE_DATE_EPOCH=1632847589
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -150,8 +150,8 @@ meson test -C builddir || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/libinput
-cp %{_builddir}/libinput-1.19.0/COPYING %{buildroot}/usr/share/package-licenses/libinput/f5a6ed09e0687479426f93fd084dc38c812b966d
-cp %{_builddir}/libinput-1.19.0/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
+cp %{_builddir}/libinput-1.19.1/COPYING %{buildroot}/usr/share/package-licenses/libinput/f5a6ed09e0687479426f93fd084dc38c812b966d
+cp %{_builddir}/libinput-1.19.1/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
 DESTDIR=%{buildroot} ninja -C builddir install
 
 %files
@@ -204,6 +204,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/libinput/50-system-huawei.quirks
 /usr/share/libinput/50-system-lenovo.quirks
 /usr/share/libinput/50-system-pine64.quirks
+/usr/share/libinput/50-system-prestigio.quirks
 /usr/share/libinput/50-system-purism.quirks
 /usr/share/libinput/50-system-sony.quirks
 /usr/share/libinput/50-system-system76.quirks
