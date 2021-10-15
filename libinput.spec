@@ -6,7 +6,7 @@
 #
 Name     : libinput
 Version  : 1.19.1
-Release  : 75
+Release  : 76
 URL      : https://www.freedesktop.org/software/libinput/libinput-1.19.1.tar.xz
 Source0  : https://www.freedesktop.org/software/libinput/libinput-1.19.1.tar.xz
 Source1  : https://www.freedesktop.org/software/libinput/libinput-1.19.1.tar.xz.sig
@@ -16,6 +16,7 @@ License  : Apache-2.0 MIT
 Requires: libinput-bin = %{version}-%{release}
 Requires: libinput-config = %{version}-%{release}
 Requires: libinput-data = %{version}-%{release}
+Requires: libinput-filemap = %{version}-%{release}
 Requires: libinput-lib = %{version}-%{release}
 Requires: libinput-libexec = %{version}-%{release}
 Requires: libinput-license = %{version}-%{release}
@@ -47,6 +48,7 @@ Requires: libinput-data = %{version}-%{release}
 Requires: libinput-libexec = %{version}-%{release}
 Requires: libinput-config = %{version}-%{release}
 Requires: libinput-license = %{version}-%{release}
+Requires: libinput-filemap = %{version}-%{release}
 
 %description bin
 bin components for the libinput package.
@@ -81,12 +83,21 @@ Requires: libinput = %{version}-%{release}
 dev components for the libinput package.
 
 
+%package filemap
+Summary: filemap components for the libinput package.
+Group: Default
+
+%description filemap
+filemap components for the libinput package.
+
+
 %package lib
 Summary: lib components for the libinput package.
 Group: Libraries
 Requires: libinput-data = %{version}-%{release}
 Requires: libinput-libexec = %{version}-%{release}
 Requires: libinput-license = %{version}-%{release}
+Requires: libinput-filemap = %{version}-%{release}
 
 %description lib
 lib components for the libinput package.
@@ -97,6 +108,7 @@ Summary: libexec components for the libinput package.
 Group: Default
 Requires: libinput-config = %{version}-%{release}
 Requires: libinput-license = %{version}-%{release}
+Requires: libinput-filemap = %{version}-%{release}
 
 %description libexec
 libexec components for the libinput package.
@@ -121,13 +133,16 @@ man components for the libinput package.
 %prep
 %setup -q -n libinput-1.19.1
 cd %{_builddir}/libinput-1.19.1
+pushd ..
+cp -a libinput-1.19.1 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1632847589
+export SOURCE_DATE_EPOCH=1634312746
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -140,19 +155,25 @@ CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --
 -Ddocumentation=false \
 -Ddebug-gui=false  builddir
 ninja -v -C builddir
+CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -O3" CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 " LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dlibwacom=false \
+-Ddocumentation=false \
+-Ddebug-gui=false  builddiravx2
+ninja -v -C builddiravx2
 
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-meson test -C builddir || :
+meson test -C builddir --print-errorlogs || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/libinput
 cp %{_builddir}/libinput-1.19.1/COPYING %{buildroot}/usr/share/package-licenses/libinput/f5a6ed09e0687479426f93fd084dc38c812b966d
 cp %{_builddir}/libinput-1.19.1/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
+DESTDIR=%{buildroot}-v3 ninja -C builddiravx2 install
 DESTDIR=%{buildroot} ninja -C builddir install
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -163,6 +184,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files bin
 %defattr(-,root,root,-)
 /usr/bin/libinput
+/usr/share/clear/optimized-elf/bin*
 
 %files config
 %defattr(-,root,root,-)
@@ -217,10 +239,16 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/libinput.so
 /usr/lib64/pkgconfig/libinput.pc
 
+%files filemap
+%defattr(-,root,root,-)
+/usr/share/clear/filemap/filemap-libinput
+
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libinput.so.10
 /usr/lib64/libinput.so.10.13.0
+/usr/share/clear/optimized-elf/lib*
+/usr/share/clear/optimized-elf/other*
 
 %files libexec
 %defattr(-,root,root,-)
@@ -240,6 +268,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/libexec/libinput/libinput-quirks
 /usr/libexec/libinput/libinput-record
 /usr/libexec/libinput/libinput-replay
+/usr/share/clear/optimized-elf/exec*
 
 %files license
 %defattr(0644,root,root,0755)
