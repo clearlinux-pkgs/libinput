@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.19.1
-Release  : 76
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.19.1.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.19.1.tar.xz
-Source1  : https://www.freedesktop.org/software/libinput/libinput-1.19.1.tar.xz.sig
+Version  : 1.19.2
+Release  : 77
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.19.2.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.19.2.tar.xz
+Source1  : https://www.freedesktop.org/software/libinput/libinput-1.19.2.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
@@ -131,10 +131,10 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.19.1
-cd %{_builddir}/libinput-1.19.1
+%setup -q -n libinput-1.19.2
+cd %{_builddir}/libinput-1.19.2
 pushd ..
-cp -a libinput-1.19.1 buildavx2
+cp -a libinput-1.19.2 buildavx2
 popd
 
 %build
@@ -142,7 +142,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1634312746
+export SOURCE_DATE_EPOCH=1634836711
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -155,7 +155,7 @@ CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --
 -Ddocumentation=false \
 -Ddebug-gui=false  builddir
 ninja -v -C builddir
-CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -O3" CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 " LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dlibwacom=false \
+CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 -O3" CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 " LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dlibwacom=false \
 -Ddocumentation=false \
 -Ddebug-gui=false  builddiravx2
 ninja -v -C builddiravx2
@@ -169,8 +169,8 @@ meson test -C builddir --print-errorlogs || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/libinput
-cp %{_builddir}/libinput-1.19.1/COPYING %{buildroot}/usr/share/package-licenses/libinput/f5a6ed09e0687479426f93fd084dc38c812b966d
-cp %{_builddir}/libinput-1.19.1/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
+cp %{_builddir}/libinput-1.19.2/COPYING %{buildroot}/usr/share/package-licenses/libinput/f5a6ed09e0687479426f93fd084dc38c812b966d
+cp %{_builddir}/libinput-1.19.2/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
 DESTDIR=%{buildroot}-v3 ninja -C builddiravx2 install
 DESTDIR=%{buildroot} ninja -C builddir install
 /usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
@@ -208,6 +208,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/libinput/30-vendor-madcatz.quirks
 /usr/share/libinput/30-vendor-microsoft.quirks
 /usr/share/libinput/30-vendor-razer.quirks
+/usr/share/libinput/30-vendor-starlabs.quirks
 /usr/share/libinput/30-vendor-synaptics.quirks
 /usr/share/libinput/30-vendor-trust.quirks
 /usr/share/libinput/30-vendor-vmware.quirks
@@ -222,6 +223,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/libinput/50-system-dell.quirks
 /usr/share/libinput/50-system-gigabyte.quirks
 /usr/share/libinput/50-system-google.quirks
+/usr/share/libinput/50-system-gpd.quirks
 /usr/share/libinput/50-system-hp.quirks
 /usr/share/libinput/50-system-huawei.quirks
 /usr/share/libinput/50-system-lenovo.quirks
