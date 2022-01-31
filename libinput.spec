@@ -6,7 +6,7 @@
 #
 Name     : libinput
 Version  : 1.19.3
-Release  : 79
+Release  : 80
 URL      : https://www.freedesktop.org/software/libinput/libinput-1.19.3.tar.xz
 Source0  : https://www.freedesktop.org/software/libinput/libinput-1.19.3.tar.xz
 Source1  : https://www.freedesktop.org/software/libinput/libinput-1.19.3.tar.xz.sig
