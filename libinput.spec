@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.19.3
-Release  : 80
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.19.3.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.19.3.tar.xz
-Source1  : https://www.freedesktop.org/software/libinput/libinput-1.19.3.tar.xz.sig
+Version  : 1.19.4
+Release  : 81
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.19.4.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.19.4.tar.xz
+Source1  : https://www.freedesktop.org/software/libinput/libinput-1.19.4.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
@@ -131,10 +131,10 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.19.3
-cd %{_builddir}/libinput-1.19.3
+%setup -q -n libinput-1.19.4
+cd %{_builddir}/libinput-1.19.4
 pushd ..
-cp -a libinput-1.19.3 buildavx2
+cp -a libinput-1.19.4 buildavx2
 popd
 
 %build
@@ -142,7 +142,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1640640714
+export SOURCE_DATE_EPOCH=1650474830
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -169,8 +169,8 @@ meson test -C builddir --print-errorlogs || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/libinput
-cp %{_builddir}/libinput-1.19.3/COPYING %{buildroot}/usr/share/package-licenses/libinput/f5a6ed09e0687479426f93fd084dc38c812b966d
-cp %{_builddir}/libinput-1.19.3/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
+cp %{_builddir}/libinput-1.19.4/COPYING %{buildroot}/usr/share/package-licenses/libinput/f5a6ed09e0687479426f93fd084dc38c812b966d
+cp %{_builddir}/libinput-1.19.4/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
 DESTDIR=%{buildroot}-v3 ninja -C builddiravx2 install
 DESTDIR=%{buildroot} ninja -C builddir install
 /usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
