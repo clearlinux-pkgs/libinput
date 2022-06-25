@@ -6,7 +6,7 @@
 #
 Name     : libinput
 Version  : 1.19.4
-Release  : 81
+Release  : 82
 URL      : https://www.freedesktop.org/software/libinput/libinput-1.19.4.tar.xz
 Source0  : https://www.freedesktop.org/software/libinput/libinput-1.19.4.tar.xz
 Source1  : https://www.freedesktop.org/software/libinput/libinput-1.19.4.tar.xz.sig
@@ -142,7 +142,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1650474830
+export SOURCE_DATE_EPOCH=1656130578
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -173,7 +173,7 @@ cp %{_builddir}/libinput-1.19.4/COPYING %{buildroot}/usr/share/package-licenses/
 cp %{_builddir}/libinput-1.19.4/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
 DESTDIR=%{buildroot}-v3 ninja -C builddiravx2 install
 DESTDIR=%{buildroot} ninja -C builddir install
-/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -248,9 +248,11 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/glibc-hwcaps/x86-64-v3/libinput.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libinput.so.10
+/usr/lib64/glibc-hwcaps/x86-64-v3/libinput.so.10.13.0
 /usr/lib64/libinput.so.10
 /usr/lib64/libinput.so.10.13.0
-/usr/share/clear/optimized-elf/lib*
 /usr/share/clear/optimized-elf/other*
 
 %files libexec
