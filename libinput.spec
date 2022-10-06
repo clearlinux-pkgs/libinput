@@ -6,7 +6,7 @@
 #
 Name     : libinput
 Version  : 1.19.4
-Release  : 86
+Release  : 87
 URL      : https://www.freedesktop.org/software/libinput/libinput-1.19.4.tar.xz
 Source0  : https://www.freedesktop.org/software/libinput/libinput-1.19.4.tar.xz
 Source1  : https://www.freedesktop.org/software/libinput/libinput-1.19.4.tar.xz.sig
@@ -142,7 +142,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1656130578
+export SOURCE_DATE_EPOCH=1665098639
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -169,8 +169,8 @@ meson test -C builddir --print-errorlogs || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/libinput
-cp %{_builddir}/libinput-1.19.4/COPYING %{buildroot}/usr/share/package-licenses/libinput/f5a6ed09e0687479426f93fd084dc38c812b966d
-cp %{_builddir}/libinput-1.19.4/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
+cp %{_builddir}/libinput-%{version}/COPYING %{buildroot}/usr/share/package-licenses/libinput/f5a6ed09e0687479426f93fd084dc38c812b966d
+cp %{_builddir}/libinput-%{version}/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
 DESTDIR=%{buildroot}-v3 ninja -C builddiravx2 install
 DESTDIR=%{buildroot} ninja -C builddir install
 /usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
@@ -239,6 +239,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files dev
 %defattr(-,root,root,-)
 /usr/include/libinput.h
+/usr/lib64/glibc-hwcaps/x86-64-v3/libinput.so
 /usr/lib64/libinput.so
 /usr/lib64/pkgconfig/libinput.pc
 
@@ -248,7 +249,6 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/glibc-hwcaps/x86-64-v3/libinput.so
 /usr/lib64/glibc-hwcaps/x86-64-v3/libinput.so.10
 /usr/lib64/glibc-hwcaps/x86-64-v3/libinput.so.10.13.0
 /usr/lib64/libinput.so.10
