@@ -5,7 +5,7 @@
 #
 Name     : libinput
 Version  : 1.23.0
-Release  : 91
+Release  : 92
 URL      : https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.23.0/libinput-1.23.0.tar.gz
 Source0  : https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.23.0/libinput-1.23.0.tar.gz
 Summary  : Input device library
@@ -14,7 +14,6 @@ License  : Apache-2.0 MIT
 Requires: libinput-bin = %{version}-%{release}
 Requires: libinput-config = %{version}-%{release}
 Requires: libinput-data = %{version}-%{release}
-Requires: libinput-filemap = %{version}-%{release}
 Requires: libinput-lib = %{version}-%{release}
 Requires: libinput-libexec = %{version}-%{release}
 Requires: libinput-license = %{version}-%{release}
@@ -50,7 +49,6 @@ Requires: libinput-data = %{version}-%{release}
 Requires: libinput-libexec = %{version}-%{release}
 Requires: libinput-config = %{version}-%{release}
 Requires: libinput-license = %{version}-%{release}
-Requires: libinput-filemap = %{version}-%{release}
 
 %description bin
 bin components for the libinput package.
@@ -85,21 +83,12 @@ Requires: libinput = %{version}-%{release}
 dev components for the libinput package.
 
 
-%package filemap
-Summary: filemap components for the libinput package.
-Group: Default
-
-%description filemap
-filemap components for the libinput package.
-
-
 %package lib
 Summary: lib components for the libinput package.
 Group: Libraries
 Requires: libinput-data = %{version}-%{release}
 Requires: libinput-libexec = %{version}-%{release}
 Requires: libinput-license = %{version}-%{release}
-Requires: libinput-filemap = %{version}-%{release}
 
 %description lib
 lib components for the libinput package.
@@ -110,7 +99,6 @@ Summary: libexec components for the libinput package.
 Group: Default
 Requires: libinput-config = %{version}-%{release}
 Requires: libinput-license = %{version}-%{release}
-Requires: libinput-filemap = %{version}-%{release}
 
 %description libexec
 libexec components for the libinput package.
@@ -144,15 +132,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1679938783
+export SOURCE_DATE_EPOCH=1683044544
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dlibwacom=false \
 -Ddocumentation=false \
 -Ddebug-gui=false  builddir
@@ -179,14 +167,17 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files
 %defattr(-,root,root,-)
+/V3/usr/lib/udev/libinput-device-group
+/V3/usr/lib/udev/libinput-fuzz-extract
+/V3/usr/lib/udev/libinput-fuzz-to-zero
 /usr/lib/udev/libinput-device-group
 /usr/lib/udev/libinput-fuzz-extract
 /usr/lib/udev/libinput-fuzz-to-zero
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/libinput
 /usr/bin/libinput
-/usr/share/clear/optimized-elf/bin*
 
 %files config
 %defattr(-,root,root,-)
@@ -239,25 +230,28 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files dev
 %defattr(-,root,root,-)
+/V3/usr/lib64/libinput.so
 /usr/include/libinput.h
-/usr/lib64/glibc-hwcaps/x86-64-v3/libinput.so
 /usr/lib64/libinput.so
 /usr/lib64/pkgconfig/libinput.pc
 
-%files filemap
-%defattr(-,root,root,-)
-/usr/share/clear/filemap/filemap-libinput
-
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/glibc-hwcaps/x86-64-v3/libinput.so.10
-/usr/lib64/glibc-hwcaps/x86-64-v3/libinput.so.10.13.0
+/V3/usr/lib64/libinput.so.10
+/V3/usr/lib64/libinput.so.10.13.0
 /usr/lib64/libinput.so.10
 /usr/lib64/libinput.so.10.13.0
-/usr/share/clear/optimized-elf/other*
 
 %files libexec
 %defattr(-,root,root,-)
+/V3/usr/libexec/libinput/libinput-analyze
+/V3/usr/libexec/libinput/libinput-debug-events
+/V3/usr/libexec/libinput/libinput-debug-tablet
+/V3/usr/libexec/libinput/libinput-list-devices
+/V3/usr/libexec/libinput/libinput-measure
+/V3/usr/libexec/libinput/libinput-quirks
+/V3/usr/libexec/libinput/libinput-record
+/V3/usr/libexec/libinput/libinput-test
 /usr/libexec/libinput/libinput-analyze
 /usr/libexec/libinput/libinput-analyze-per-slot-delta
 /usr/libexec/libinput/libinput-analyze-recording
@@ -276,7 +270,6 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/libexec/libinput/libinput-record
 /usr/libexec/libinput/libinput-replay
 /usr/libexec/libinput/libinput-test
-/usr/share/clear/optimized-elf/exec*
 
 %files license
 %defattr(0644,root,root,0755)
