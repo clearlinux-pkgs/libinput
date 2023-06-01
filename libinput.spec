@@ -5,7 +5,7 @@
 #
 Name     : libinput
 Version  : 1.23.0
-Release  : 92
+Release  : 93
 URL      : https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.23.0/libinput-1.23.0.tar.gz
 Source0  : https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.23.0/libinput-1.23.0.tar.gz
 Summary  : Input device library
@@ -132,7 +132,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1683044544
+export SOURCE_DATE_EPOCH=1685639051
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -230,14 +230,12 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files dev
 %defattr(-,root,root,-)
-/V3/usr/lib64/libinput.so
 /usr/include/libinput.h
 /usr/lib64/libinput.so
 /usr/lib64/pkgconfig/libinput.pc
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/libinput.so.10
 /V3/usr/lib64/libinput.so.10.13.0
 /usr/lib64/libinput.so.10
 /usr/lib64/libinput.so.10.13.0
