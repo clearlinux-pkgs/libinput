@@ -4,10 +4,10 @@
 # Using build pattern: meson
 #
 Name     : libinput
-Version  : 1.23.0
-Release  : 93
-URL      : https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.23.0/libinput-1.23.0.tar.gz
-Source0  : https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.23.0/libinput-1.23.0.tar.gz
+Version  : 1.24.0
+Release  : 94
+URL      : https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.24.0/libinput-1.24.0.tar.gz
+Source0  : https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.24.0/libinput-1.24.0.tar.gz
 Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
@@ -28,7 +28,7 @@ BuildRequires : pkgconfig(gtk+-3.0)
 BuildRequires : pkgconfig(libevdev)
 BuildRequires : pkgconfig(libudev)
 BuildRequires : pkgconfig(mtdev)
-BuildRequires : pypi-pytest
+BuildRequires : pypi(pytest)
 BuildRequires : python3-dev
 BuildRequires : valgrind
 # Suppress stripping binaries
@@ -121,10 +121,10 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.23.0
-cd %{_builddir}/libinput-1.23.0
+%setup -q -n libinput-1.24.0
+cd %{_builddir}/libinput-1.24.0
 pushd ..
-cp -a libinput-1.23.0 buildavx2
+cp -a libinput-1.24.0 buildavx2
 popd
 
 %build
@@ -132,7 +132,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1685639051
+export SOURCE_DATE_EPOCH=1692975793
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
