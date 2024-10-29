@@ -7,7 +7,7 @@
 #
 Name     : libinput
 Version  : 1.26.2
-Release  : 99
+Release  : 100
 URL      : https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.26.2/libinput-1.26.2.tar.gz
 Source0  : https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.26.2/libinput-1.26.2.tar.gz
 Summary  : Input device library
